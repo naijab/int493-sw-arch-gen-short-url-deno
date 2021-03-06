@@ -4,16 +4,17 @@
 
 ## Must install
 
-- nodejs 12
+- docker, docker-compose
 
 ## How to run
+- copy .env.example to .env and edit value
 
 - run `make install` for installing deno for run app local (first time)
 
-- run `make start` for starting app at
+- run `make start` for starting dev app at
   [http://localhost:8080](http://localhost:8080)
 
-- run `make start-docker` for starting app with docker at
+- run `make start-docker` for starting production app with docker at
   [http://localhost:8080](http://localhost:8080)
 
 - run `make lint` for linting of code
