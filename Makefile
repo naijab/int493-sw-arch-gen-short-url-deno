@@ -11,6 +11,18 @@ start-prod:
 	@echo "URL Shortener ===> Starting Prod ..."
 	pm2 start
 
+start-docker:
+	@echo "URL Shortener ===> Starting Prod with Docker ..."
+	docker-compose up -d --build
+
+status-docker:
+	@echo "URL Shortener ===> Status Prod with Docker ..."
+	docker-compose down
+
+stop-docker:
+	@echo "URL Shortener ===> Stopping Prod with Docker ..."
+	docker-compose down
+
 lint:
 	@echo "URL Shortener ===> Check and Lint ..."
 	deno lint --unstable
