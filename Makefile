@@ -4,7 +4,7 @@ install:
 
 start:
 	@echo "URL Shortener ===> Starting ..."
-	deno run --allow-net index.ts
+	deno run --allow-net --allow-read --allow-env index.ts
 
 lint:
 	@echo "URL Shortener ===> Check and Lint ..."
