@@ -12,9 +12,9 @@
 - run `make install` for installing deno for run app local (first time)
 
 - run `make start` for starting dev app at
-  [http://localhost:8080](http://localhost:8080)
+  [http://localhost:8080](http://localhost:8080) or port with you config .env
 
 - run `make start-docker` for starting production app with docker at
-  [http://localhost:8080](http://localhost:8080)
+  [http://localhost:8080](http://localhost:8080) or port with you config .env
 
 - run `make lint` for linting of code
