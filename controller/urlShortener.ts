@@ -3,8 +3,16 @@ import Link from "../interface/Link.ts";
 
 export default {
     getAll: async ({ params, response }: { params: {}; response: any },) => {
-        response.status = 200;
-        response.body = await linkRepository.getAll();
+        try{
+            const result = await linkRepository.getAll();
+            response.status = 200;
+            response.body = result;
+        } catch (error) {
+            response.status = 400;
+            response.body = {
+                message: `Error: ${error}`,
+            };
+        }
     },
     getByShort: async ({ params, response }: { params: { short: string }; response: any },) => {
         try {
