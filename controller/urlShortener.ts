@@ -27,7 +27,8 @@ export default {
             }
             const updateResult = await linkRepository.updateStatByShort({short})
             if (updateResult > 0) {
-                response.redirect(link.full)
+                response.status = 302;
+                response.headers.set("Location", link.full)
                 return;
             }
         } catch (error) {
@@ -39,7 +40,7 @@ export default {
     },
     getStatByShort: async ({ params, response }: { params: { short: string }; response: any },) => {
         try {
-            const link = await linkRepository.getByShort({short: params.short})
+            const link: Link = await linkRepository.getByShort({short: params.short})
             if (!link) {
                 response.status = 404;
                 response.body = {

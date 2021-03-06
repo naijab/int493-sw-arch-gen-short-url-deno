@@ -4,8 +4,7 @@
 
 ## Must install
 
-- docker, docker-compose
-
+- nodejs 12
 
 ## How to run
 
