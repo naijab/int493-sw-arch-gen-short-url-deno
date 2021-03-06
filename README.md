@@ -13,4 +13,7 @@
 - run `make start` for starting app at
   [http://localhost:8080](http://localhost:8080)
 
+- run `make start-docker` for starting app with docker at
+  [http://localhost:8080](http://localhost:8080)
+
 - run `make lint` for linting of code
