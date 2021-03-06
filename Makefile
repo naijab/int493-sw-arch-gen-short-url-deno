@@ -7,7 +7,7 @@ start:
 	@echo "URL Shortener ===> Starting ..."
 	deno run --allow-net --allow-read --allow-env index.ts
 
-start-prod:
+start-pm2:
 	@echo "URL Shortener ===> Starting Prod ..."
 	pm2 start
 
@@ -17,7 +17,7 @@ start-docker:
 
 status-docker:
 	@echo "URL Shortener ===> Status Prod with Docker ..."
-	docker-compose status -a
+	docker-compose ps -a
 
 stop-docker:
 	@echo "URL Shortener ===> Stopping Prod with Docker ..."
