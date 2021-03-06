@@ -21,7 +21,7 @@ stop-docker:
 
 clean-docker:
 	@echo "URL Shortener ===> Cleaning Production App with Docker ..."
-	rm -rf mariadb/
+	sudo rm -rf mariadb/
 
 lint:
 	@echo "URL Shortener ===> Check and Lint ..."
