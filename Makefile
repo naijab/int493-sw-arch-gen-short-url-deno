@@ -1,7 +1,6 @@
 install:
 	@echo "URL Shortener ===> Installing Tools ..."
 	curl -fsSL https://deno.land/x/install/install.sh | sh
-	sudo npm install -g pm2
 
 start:
 	@echo "URL Shortener ===> Dev App Starting ..."

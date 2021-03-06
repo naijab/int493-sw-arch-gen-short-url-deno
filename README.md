@@ -7,7 +7,7 @@
 - docker, docker-compose
 
 ## How to run
-- copy .env.example to .env and edit value
+- copy **.env.example** to **.env** and edit value and use `source .env`
 
 - run `make install` for installing deno for run app local (first time)
 
