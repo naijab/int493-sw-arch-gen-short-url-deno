@@ -17,7 +17,7 @@ start-docker:
 
 status-docker:
 	@echo "URL Shortener ===> Status Prod with Docker ..."
-	docker-compose down
+	docker-compose status -a
 
 stop-docker:
 	@echo "URL Shortener ===> Stopping Prod with Docker ..."
