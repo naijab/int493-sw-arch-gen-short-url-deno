@@ -56,6 +56,7 @@ clean-db-docker:
 
 build-binary:
 	@echo "URL Shortener ===> Build Production App Binary..."
+	mkdir -p out
 	deno compile --unstable --allow-net --allow-env --allow-read --output=out/app index.ts 
 
 enable-app-service:
