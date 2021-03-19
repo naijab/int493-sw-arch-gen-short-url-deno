@@ -24,8 +24,8 @@ clean-docker:
 
 build-binary:
 	@echo "URL Shortener ===> Build Production App Binary..."
-	deno compile --unstable --allow-net --allow-env --allow-read index.ts
-	
+	deno compile --unstable --allow-net --allow-env --allow-read --output=out/app index.ts 
+
 lint:
 	@echo "URL Shortener ===> Check and Lint ..."
 	deno lint --unstable
