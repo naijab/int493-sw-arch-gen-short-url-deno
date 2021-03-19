@@ -2,6 +2,18 @@ install:
 	@echo "URL Shortener ===> Installing Tools ..."
 	curl -fsSL https://deno.land/x/install/install.sh | sh
 
+install-docker:
+	@echo "URL Shortener ===> Installing Docker ..."
+	su - ${USER}
+	sudo apt update
+	sudo apt install apt-transport-https ca-certificates curl software-properties-common
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+	sudo apt update
+	sudo apt install docker-ce
+	sudo usermod -aG docker ${USER}
+	su - ${USER}
+
 start:
 	@echo "URL Shortener ===> Dev App Starting ..."
 	deno run --allow-net --allow-read --allow-env index.ts
