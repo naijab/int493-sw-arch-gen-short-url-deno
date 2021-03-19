@@ -4,8 +4,6 @@ services:
   shortener_api:
     build: .
     restart: always
-    depends_on:
-      - short_db
     volumes:
       - ./:/usr/app
     ports:
