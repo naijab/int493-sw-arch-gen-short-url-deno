@@ -45,6 +45,10 @@ stop-db-docker:
 	@echo "URL Shortener ===> Cleaning Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml down
 
+status-db-docker:
+	@echo "URL Shortener ===> Status of Database with Docker ..."
+	docker-compose -f docker-compose-db.yaml ps -a
+
 clean-db-docker:
 	@echo "URL Shortener ===> Cleaning Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml down --volumes
