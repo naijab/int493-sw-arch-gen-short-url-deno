@@ -4,18 +4,15 @@
 
 ## Must install
 
-- docker, docker-compose
-- `sudo apt install make`
+- docker, docker-compose, make
+- `sudo apt install make` for install make
 
 ## How to run
 - copy **.env.example** to **.env** and edit value and use `source .env`
+- if database machine edit onlye `DB_PASSWORD` value for initialize database container
 
-- run `make install` for installing deno for run app local (first time)
-
-- run `make start` for starting dev app at
-  [http://localhost:8080](http://localhost:8080) or port with you config .env
-
-- run `make start-docker` for starting production app with docker at
-  [http://localhost:8080](http://localhost:8080) or port with you config .env
-
+- run `make install` for installing deno
+- run `make install-docker` for installing docker
+- run `make start-db-docker` for starting database (only use on database machine) -- port 3307 default
+- run `make start-app-docker` for starting app (only use on app machine) -- port 8080 default
 - run `make lint` for linting of code
