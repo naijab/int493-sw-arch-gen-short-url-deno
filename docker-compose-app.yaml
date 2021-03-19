@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/usr/app
     ports:
-      - ${PORT}:8080
+      - ${PORT}:80
     environment:
       HOST: ${HOST}
       PORT: ${PORT}
