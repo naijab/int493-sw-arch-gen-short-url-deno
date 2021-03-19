@@ -22,6 +22,10 @@ clean-docker:
 	@echo "URL Shortener ===> Cleaning Production App with Docker ..."
 	sudo rm -rf mariadb/
 
+start-db-docker:
+	@echo "URL Shortener ===> Start Database with Docker ..."
+	docker-compose -f docker-compose-db.yaml up -d
+
 build-binary:
 	@echo "URL Shortener ===> Build Production App Binary..."
 	deno compile --unstable --allow-net --allow-env --allow-read --output=out/app index.ts 

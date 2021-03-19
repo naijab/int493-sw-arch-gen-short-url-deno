@@ -1,9 +1,7 @@
 import client from "../config/db.ts";
 import Link from "../interface/Link.ts";
-import {DATABASE_NAME, HOSTNAME, TABLE} from "../config/config.ts";
-import Count from "../interface/Count.ts";
-
-const KEY = Deno.env.get('SHORT_PREFIX_KEY') || 'Pra'
+import {HOSTNAME, TABLE} from "../config/config.ts";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 
 export default {
     getAll: async () => {
@@ -18,28 +16,16 @@ export default {
         );
         return result[0]
     },
-    create: async ( { full }: Link) => {
-        const countResult = await client.query(
-            `SELECT AUTO_INCREMENT as count 
-                    FROM INFORMATION_SCHEMA.TABLES 
-                    WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?`,
-            [
-                DATABASE_NAME,
-                TABLE.LINK
-            ]);
-        const count = countResult[0].count + 1 as Count
+    create: async ({ full }: Link) => {
+        let genId = nanoid();
         const result = await client.query(
-            `INSERT INTO ${TABLE.LINK} (short, full) VALUES (CONCAT(?, ?), ?)`,
-            [
-                KEY,
-                count,
-                full,
-            ],
-        )
+            `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
+            [genId, full]
+        );
         if (result.affectedRows == 0) {
             return Promise.reject("Cannot Create Link")
         }
-        return {short: `${HOSTNAME}/l/${KEY}${count}`}
+        return { short: `${HOSTNAME}/l/${genId}` };
     },
     updateStatByShort: async ({ short }: Link) => {
         const result = await client.query(
