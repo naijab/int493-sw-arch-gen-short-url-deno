@@ -5,7 +5,6 @@ install:
 
 install-docker:
 	@echo "URL Shortener ===> Installing Docker ..."
-	su - ${USER}
 	sudo apt update
 	sudo apt install git
 	sudo apt install apt-transport-https ca-certificates curl software-properties-common
