@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  shortener_api:
+    build: .
+    restart: always
+    depends_on:
+      - short_db
+    volumes:
+      - ./:/usr/app
+    ports:
+      - ${PORT}:8080
+    environment:
+      HOST: ${HOST}
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_POST}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_POOL_SIZE: ${DB_POOL_SIZE}
+      SHORT_PREFIX_KEY: ${SHORT_PREFIX_KEY}

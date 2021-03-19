@@ -17,6 +17,9 @@ install-docker:
 	sudo usermod -aG docker ${USER}
 	su - ${USER}
 
+clone:
+	git clone 
+
 start:
 	@echo "URL Shortener ===> Dev App Starting ..."
 	deno run --allow-net --allow-read --allow-env index.ts
@@ -36,6 +39,18 @@ stop-docker:
 clean-docker:
 	@echo "URL Shortener ===> Cleaning Production App with Docker ..."
 	sudo rm -rf mariadb/
+
+start-app-docker:
+	@echo "URL Shortener ===> Start App with Docker ..."
+	docker-compose -f docker-compose-db.yaml up -d
+
+status-app-docker:
+	@echo "URL Shortener ===> Status of App with Docker ..."
+	docker-compose -f docker-compose-db.yaml ps -a
+
+stop-app-docker:
+	@echo "URL Shortener ===> Stop App with Docker ..."
+	docker-compose -f docker-compose-db.yaml down
 
 start-db-docker:
 	@echo "URL Shortener ===> Start Database with Docker ..."
