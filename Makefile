@@ -18,27 +18,15 @@ install-docker:
 	su - ${USER}
 
 clone:
-	git clone 
+	git clone https://github.com/naijab/int493-sw-arch-gen-short-url-deno
 
 start:
 	@echo "URL Shortener ===> Dev App Starting ..."
 	deno run --allow-net --allow-read --allow-env index.ts
 
-start-docker:
-	@echo "URL Shortener ===> Starting Production App with Docker ..."
-	docker-compose up -d --build
-
-status-docker:
-	@echo "URL Shortener ===> Status Production App with Docker ..."
-	docker-compose ps -a
-
-stop-docker:
-	@echo "URL Shortener ===> Stopping Production App with Docker ..."
-	docker-compose down
-
-clean-docker:
-	@echo "URL Shortener ===> Cleaning Production App with Docker ..."
-	sudo rm -rf mariadb/
+build-app-docker:
+	@echo "URL Shortener ===> Building App with Docker ..."
+	docker-compose -f docker-compose-app.yaml up -d --build
 
 start-app-docker:
 	@echo "URL Shortener ===> Start App with Docker ..."
