@@ -1,12 +1,13 @@
 install:
 	@echo "URL Shortener ===> Installing Tools ..."
+	sudo apt install unzip
 	curl -fsSL https://deno.land/x/install/install.sh | sh
 
 install-docker:
 	@echo "URL Shortener ===> Installing Docker ..."
 	su - ${USER}
 	sudo apt update
-	sudo apt install make git
+	sudo apt install git
 	sudo apt install apt-transport-https ca-certificates curl software-properties-common
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"

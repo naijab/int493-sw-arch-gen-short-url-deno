@@ -5,6 +5,7 @@
 ## Must install
 
 - docker, docker-compose
+- `sudo apt install make`
 
 ## How to run
 - copy **.env.example** to **.env** and edit value and use `source .env`
