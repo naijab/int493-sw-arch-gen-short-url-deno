@@ -1,0 +1,15 @@
+[Unit]
+Description=URL Shortener Service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/azureuser/int493-sw-arch-gen-short-url-deno/out/app
+WorkingDirectory=/home/azureuser/int493-sw-arch-gen-short-url-deno/out
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

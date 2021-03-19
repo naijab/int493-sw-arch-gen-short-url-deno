@@ -58,6 +58,18 @@ build-binary:
 	@echo "URL Shortener ===> Build Production App Binary..."
 	deno compile --unstable --allow-net --allow-env --allow-read --output=out/app index.ts 
 
+enable-app-service:
+	@echo "URL Shortener ===> Enable URL Service App for systemd..."
+	sudo systemctl enable url-shortener.service
+
+start-app-service:
+	@echo "URL Shortener ===> Starting URL Service App for systemd..."
+	sudo systemctl start url-shortener.service
+
+status-app-service:
+	@echo "URL Shortener ===> Status of URL Service App for systemd..."
+	sudo systemctl status url-shortener.service
+
 lint:
 	@echo "URL Shortener ===> Check and Lint ..."
 	deno lint --unstable
