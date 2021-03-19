@@ -42,15 +42,15 @@ clean-docker:
 
 start-app-docker:
 	@echo "URL Shortener ===> Start App with Docker ..."
-	docker-compose -f docker-compose-db.yaml up -d
+	docker-compose -f docker-compose-app.yaml up -d
 
 status-app-docker:
 	@echo "URL Shortener ===> Status of App with Docker ..."
-	docker-compose -f docker-compose-db.yaml ps -a
+	docker-compose -f docker-compose-app.yaml ps -a
 
 stop-app-docker:
 	@echo "URL Shortener ===> Stop App with Docker ..."
-	docker-compose -f docker-compose-db.yaml down
+	docker-compose -f docker-compose-app.yaml down
 
 start-db-docker:
 	@echo "URL Shortener ===> Start Database with Docker ..."
