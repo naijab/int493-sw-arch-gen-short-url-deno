@@ -17,7 +17,7 @@ export default {
         return result[0]
     },
     create: async ({ full }: Link) => {
-        let genId = nanoid();
+        let genId = nanoid(6);
         const result = await client.query(
             `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
             [genId, full]
