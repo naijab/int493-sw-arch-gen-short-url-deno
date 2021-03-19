@@ -10,3 +10,5 @@ export const DATABASE_NAME = "project";
 export const TABLE = {
     LINK: "link"
 };
+
+export const APP_NAME = Deno.env.get("APP_NAME");

@@ -1,7 +1,14 @@
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
+import { APP_NAME } from "../config/config.ts";
 
 export default {
+    hello: async ({ response }: { params: {}; response: any },) => {
+        response.status = 200;
+        response.body = {
+            message: `Hello from: ${APP_NAME}`,
+        };
+    },
     getAll: async ({ params, response }: { params: {}; response: any },) => {
         try{
             const result = await linkRepository.getAll();
