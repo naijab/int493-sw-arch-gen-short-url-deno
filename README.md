@@ -16,3 +16,6 @@
 - run `make start-db-docker` for starting database (only use on database machine) -- port 3307 default
 - run `make start-app-docker` for starting app (only use on app machine) -- port 8080 default
 - run `make lint` for linting of code
+
+## MariaDB Database
+- Edit **mariadb.cnf** and save, and start mariadb with `make start-db-docker`

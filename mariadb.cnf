@@ -1,0 +1,7 @@
+[mysqld]
+local-infile=0
+datadir=/var/lib/mysql
+user=mysql
+symbolic-links=0
+
+max_connections = 200
