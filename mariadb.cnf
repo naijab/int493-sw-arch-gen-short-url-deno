@@ -4,4 +4,5 @@ datadir=/var/lib/mysql
 user=mysql
 symbolic-links=0
 
-max_connections = 200
+max_connections = 201
+max_connect_errors = 150
