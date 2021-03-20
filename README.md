@@ -19,3 +19,4 @@
 
 ## MariaDB Database
 - Edit **mariadb.cnf** and save, and start mariadb with `make start-db-docker`
+- More config : [https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html)
