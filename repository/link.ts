@@ -27,12 +27,12 @@ export default {
     }
 
     // It not have any count link
-    const result = await client.query(
+    const insertResult = await client.query(
       `INSERT INTO ${TABLE.COUNTER} (id, count) VALUES (?, ?)`,
       [short, 0]
     );
-    if (result.affectedRows == 0) {
-      return Promise.reject("Cannot Create Link");
+    if (insertResult.affectedRows == 0) {
+      return Promise.reject("getStatByShort -- Cannot Create Link");
     }
 
     const resultShortCount = await client.query(
@@ -54,12 +54,12 @@ export default {
     }
     // It not have any full url
     let genId = nanoid(6);
-    const result = await client.query(
+    const insertResult = await client.query(
       `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
       [genId, full]
     );
-    if (result.affectedRows == 0) {
-      return Promise.reject("Cannot Create Link");
+    if (insertResult.affectedRows == 0) {
+      return Promise.reject("create -- Cannot Create Link");
     }
     return { short: `${HOSTNAME}/l/${genId}` };
   },
@@ -72,23 +72,23 @@ export default {
     // Check if have exist short url
     let existsURL = resultShort[0];
     if (existsURL) {
-      const result = await client.query(
+      const updateResult = await client.query(
         `UPDATE ${TABLE.COUNTER} SET count = count + 1 WHERE id = ?`,
         [short]
       );
-      if (result.affectedRows == 0) {
-        return Promise.reject("Cannot Update Count Link");
+      if (updateResult.affectedRows == 0) {
+        return Promise.reject("updateStatByShort -- Cannot Update Count Link");
       }
-      return result.affectedRows;
+      return updateResult.affectedRows;
     }
     // It not have any short url
-    const result = await client.query(
+    const insertResult = await client.query(
       `INSERT INTO ${TABLE.COUNTER} (id, count) VALUES (?, ?)`,
       [short, 1]
     );
-    if (result.affectedRows == 0) {
-      return Promise.reject("Cannot Create Counter Link");
+    if (insertResult.affectedRows == 0) {
+      return Promise.reject("updateStatByShort -- Cannot Create Counter Link");
     }
-    return result.affectedRows;
+    return insertResult.affectedRows;
   },
 };

@@ -16,6 +16,7 @@ export default {
       response.status = 200;
       response.body = result;
     } catch (error) {
+      console.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -46,6 +47,7 @@ export default {
         return;
       }
     } catch (error) {
+      console.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -73,13 +75,13 @@ export default {
       const stat: Counter = await linkRepository.getStatByShort({
         short: params.short,
       });
-      console.log(`Stat By Short ${stat.count}`)
       response.status = 200;
       response.body = {
         visit: stat.count,
       };
       return;
     } catch (error) {
+      console.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -105,6 +107,7 @@ export default {
       };
       return;
     } catch (error) {
+      console.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
