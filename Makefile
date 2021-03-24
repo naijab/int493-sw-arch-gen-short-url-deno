@@ -31,18 +31,22 @@ build-app-docker:
 start-app-docker:
 	@echo "🔥 URL Shortener ===> Start App with Docker ..."
 	docker-compose -f docker-compose-app.yaml up -d
+	docker-compose -f docker-compose-app.yaml ps -a
 
 status-app-docker:
 	@echo "🔥 URL Shortener ===> Status of App with Docker ..."
+	docker-compose -f docker-compose-app.yaml ps -a
 	docker-compose -f docker-compose-app.yaml ps -a
 
 stop-app-docker:
 	@echo "🔥 URL Shortener ===> Stop App with Docker ..."
 	docker-compose -f docker-compose-app.yaml down
+	docker-compose -f docker-compose-app.yaml ps -a
 
 restart-app-docker:
 	@echo "🔥 URL Shortener ===> Restart App with Docker ..."
 	docker-compose -f docker-compose-app.yaml down
+	docker-compose -f docker-compose-app.yaml up -d
 	docker-compose -f docker-compose-app.yaml ps -a
 
 build-db-docker:
@@ -56,10 +60,12 @@ start-db-docker:
 stop-db-docker:
 	@echo "🔥 URL Shortener ===> Cleaning Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml down
+	docker-compose -f docker-compose-db.yaml ps -a
 
 restart-db-docker:
 	@echo "🔥 URL Shortener ===> Restart Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml down
+	docker-compose -f docker-compose-db.yaml up -d
 	docker-compose -f docker-compose-db.yaml ps -a
 
 status-db-docker:
@@ -69,6 +75,7 @@ status-db-docker:
 clean-db-docker:
 	@echo "🔥 URL Shortener ===> Cleaning Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml down --volumes
+	docker-compose -f docker-compose-db.yaml ps -a
 
 build-binary:
 	@echo "🔥 URL Shortener ===> Build Production App Binary..."
