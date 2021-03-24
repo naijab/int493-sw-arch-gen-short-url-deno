@@ -9,33 +9,65 @@ export default {
     },
     getByShort: async ( { short }: Link) => {
         const result = await client.query(
-            `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-            [
-                short
-            ],
+            `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+            [short],
+        );
+        return result[0]
+    },
+    getStatByShort: async ( { short }: Link) => {
+        const result = await client.query(
+            `SELECT count FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
+            [short],
         );
         return result[0]
     },
     create: async ({ full }: Link) => {
+        const resultFull = await client.query(
+            `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
+            [full]
+        );
+
+        // Check if have exist full url
+        let existsURL = resultFull[0]
+        if (existsURL) {
+            return { short: `${HOSTNAME}/l/${existsURL.short}` };
+        }
+        // It not have any full url
         let genId = nanoid(6);
         const result = await client.query(
             `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
             [genId, full]
         );
         if (result.affectedRows == 0) {
-            return Promise.reject("Cannot Create Link")
+            return Promise.reject("Cannot Create Link");
         }
         return { short: `${HOSTNAME}/l/${genId}` };
     },
     updateStatByShort: async ({ short }: Link) => {
+        const resultShort = await client.query(
+            `SELECT id FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
+            [short]
+        );
+
+        // Check if have exist short url
+        let existsURL = resultShort[0]
+        if (existsURL) {
+            const result = await client.query(
+                `UPDATE ${TABLE.COUNTER} SET count = count + 1 WHERE id = ?`,
+                [short]
+            );
+            if (result.affectedRows == 0) {
+                return Promise.reject("Cannot Update Count Link")
+            }
+            return result.affectedRows;
+        }
+        // It not have any short url
         const result = await client.query(
-            `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
-            [
-                short,
-            ],
+            `INSERT INTO ${TABLE.COUNTER} (id, count) VALUES (?, ?)`,
+            [short, 1]
         );
         if (result.affectedRows == 0) {
-            return Promise.reject("Cannot Update Count Link")
+            return Promise.reject("Cannot Create Link");
         }
         return result.affectedRows;
     }

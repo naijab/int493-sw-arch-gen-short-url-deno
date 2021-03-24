@@ -8,7 +8,8 @@ let hostName = port == "80" ? host : `${host}:${port}`;
 export const HOSTNAME = `${hostName}` || "http://localhost";
 export const DATABASE_NAME = "project";
 export const TABLE = {
-    LINK: "link"
+    LINK: "link",
+    COUNTER: "counter"
 };
 
 export const APP_NAME = Deno.env.get("APP_NAME");

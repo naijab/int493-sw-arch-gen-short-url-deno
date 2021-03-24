@@ -1,6 +1,7 @@
+import { APP_NAME } from "../config/config.ts";
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
-import { APP_NAME } from "../config/config.ts";
+import Counter from "../interface/Counter.ts";
 
 export default {
     hello: async ({ response }: { params: {}; response: any },) => {
@@ -24,7 +25,7 @@ export default {
     getByShort: async ({ params, response }: { params: { short: string }; response: any },) => {
         try {
             const short = params.short
-            const link: Link = await linkRepository.getByShort({short})
+            const link: Link = await linkRepository.getByShort({ short })
             if (!link) {
                 response.status = 404;
                 response.body = {
@@ -32,7 +33,7 @@ export default {
                 };
                 return;
             }
-            const updateResult = await linkRepository.updateStatByShort({short})
+            const updateResult = await linkRepository.updateStatByShort({ short })
             if (updateResult > 0) {
                 response.status = 302;
                 response.headers.set("Location", link.full)
@@ -47,7 +48,9 @@ export default {
     },
     getStatByShort: async ({ params, response }: { params: { short: string }; response: any },) => {
         try {
-            const link: Link = await linkRepository.getByShort({short: params.short})
+            const link: Counter = await linkRepository.getStatByShort({
+                short: params.short,
+            });
             if (!link) {
                 response.status = 404;
                 response.body = {
