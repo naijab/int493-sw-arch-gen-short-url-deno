@@ -35,7 +35,7 @@ services:
             sysbench \
                 --db-driver=mysql \
                 --mysql-host=short_db \
-                --mysql-port=3306 \
+                --mysql-port=3307 \
                 --mysql-user=root \
                 --mysql-password=${DB_PASSWORD} \
                 --mysql-db=sbtest \
