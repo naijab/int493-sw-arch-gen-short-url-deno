@@ -29,9 +29,11 @@
 - start mariadb with `make start-db-docker`
 - More config : [https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html)
 - `make status-db-docker` for checking status of database container docker
-
 ## Docker
 - `docker exec -it <container_name> sh` for ssh to container
+- if want to check mysql variable config use 
+  - `mysql -u root -p` for enter to mysql instance
+  - `SHOW VARIABLES LIKE "max_connections";`
 
 ----
 ## Danger Zone
