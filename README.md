@@ -28,6 +28,7 @@
 - `make build-app-docker` for running re-build docker container
 - `make build-binary` for building app's binary and output at **/out/app**
 - `make status-app-docker` for checking status of app container docker
+- [http://localhost](http://localhost) or [http://sh.naijab.com](http://sh.naijab.com) it show on server number and config
 
 ## MariaDB Database
 - Edit **mariadb.cnf** and save,
