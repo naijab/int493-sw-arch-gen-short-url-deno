@@ -28,6 +28,8 @@ const run = async () => {
             CONSTRAINT full_key UNIQUE (full)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     `);
+
+    console.log("run script create table if not exist completed...");
 }
 
 run();

@@ -43,7 +43,7 @@ export default {
         return;
       }
       const updateResult = await linkRepository.updateStatByShort({ short });
-      if (updateResult > 0) {
+      if (updateResult && updateResult > 0) {
         response.status = 302;
         response.headers.set("Location", link.full);
         return;
