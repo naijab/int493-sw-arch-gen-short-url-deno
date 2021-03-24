@@ -19,27 +19,7 @@ export default {
       `SELECT count FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
       [short]
     );
-
-    // Check if have exist count link
-    let existsURL = resultExistShortCount[0];
-    if (existsURL) {
-      return existsURL;
-    }
-
-    // It not have any count link
-    const insertResult = await client.query(
-      `INSERT INTO ${TABLE.COUNTER} (id, count) VALUES (?, ?)`,
-      [short, 0]
-    );
-    if (insertResult.affectedRows == 0) {
-      return Promise.reject("getStatByShort -- Cannot Create Link");
-    }
-
-    const resultShortCount = await client.query(
-      `SELECT count FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
-      [short]
-    );
-    return resultShortCount[0];
+    return resultExistShortCount[0];
   },
   create: async ({ full }: Link) => {
     const resultFull = await client.query(
