@@ -12,7 +12,6 @@ export default {
       `SELECT full, count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [short]
     );
-    await client.close();
     return result[0];
   },
   getStatByShort: async ({ short }: Link) => {
@@ -20,7 +19,6 @@ export default {
       `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [short]
     );
-    await client.close();
     return result[0];
   },
   create: async ({ full }: Link) => {
@@ -32,7 +30,6 @@ export default {
     // Check if have exist full url
     let existsURL = resultFull[0];
     if (existsURL) {
-      await client.close();
       return { short: `${HOSTNAME}/l/${existsURL.short}` };
     }
     // It not have any full url
@@ -41,7 +38,6 @@ export default {
       `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
       [genId, full]
     );
-    await client.close();
     if (insertResult.affectedRows == 0) {
       return Promise.reject("create -- Cannot Create Link");
     }
@@ -52,7 +48,6 @@ export default {
       `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
       [short]
     );
-    await client.close();
     if (updateResult.affectedRows == 0) {
       return Promise.reject("updateStatByShort -- Cannot Update Count Link");
     }
