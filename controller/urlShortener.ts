@@ -64,7 +64,7 @@ export default {
     response: any;
   }) => {
     try {
-      const link: Link = await linkRepository.getByShort({
+      const link: Link = await linkRepository.getStatByShort({
         short: params.short,
       });
       if (!link) {

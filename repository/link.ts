@@ -9,7 +9,7 @@ export default {
   },
   getByShort: async ({ short }: Link) => {
     const result = await client.query(
-      `SELECT full, count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [short]
     );
     return result[0];
