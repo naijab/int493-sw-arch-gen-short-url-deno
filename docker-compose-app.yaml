@@ -17,3 +17,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_POOL_SIZE: ${DB_POOL_SIZE}
       SHORT_PREFIX_KEY: ${SHORT_PREFIX_KEY}
+    ulimits:
+      nofile:
+        soft: "66666"
+        hard: "66666"
