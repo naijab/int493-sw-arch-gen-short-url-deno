@@ -74,12 +74,9 @@ export default {
         };
         return;
       }
-      const stat: Counter = await linkRepository.getStatByShort({
-        short: params.short,
-      });
       response.status = 200;
       response.body = {
-        visit: stat.count,
+        visit: link.count,
       };
       return;
     } catch (error) {

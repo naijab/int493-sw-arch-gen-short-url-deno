@@ -9,14 +9,14 @@ export default {
   },
   getByShort: async ({ short }: Link) => {
     const result = await client.query(
-      `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      `SELECT full, count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [short]
     );
     return result[0];
   },
   getStatByShort: async ({ short }: Link) => {
     const resultExistShortCount = await client.query(
-      `SELECT count FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
+      `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [short]
     );
     return resultExistShortCount[0];
@@ -44,31 +44,13 @@ export default {
     return { short: `${HOSTNAME}/l/${genId}` };
   },
   updateStatByShort: async ({ short }: Link) => {
-    const resultShort = await client.query(
-      `SELECT id FROM ${TABLE.COUNTER} WHERE id = ? LIMIT 1`,
+    const updateResult = await client.query(
+      `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
       [short]
     );
-
-    // Check if have exist short url
-    let existsURL = resultShort[0];
-    if (existsURL) {
-      const updateResult = await client.query(
-        `UPDATE ${TABLE.COUNTER} SET count = count + 1 WHERE id = ?`,
-        [short]
-      );
-      if (updateResult.affectedRows == 0) {
-        return Promise.reject("updateStatByShort -- Cannot Update Count Link");
-      }
-      return updateResult.affectedRows;
+    if (updateResult.affectedRows == 0) {
+      return Promise.reject("updateStatByShort -- Cannot Update Count Link");
     }
-    // It not have any short url
-    const insertResult = await client.query(
-      `INSERT INTO ${TABLE.COUNTER} (id, count) VALUES (?, ?)`,
-      [short, 1]
-    );
-    if (insertResult.affectedRows == 0) {
-      return Promise.reject("updateStatByShort -- Cannot Create Counter Link");
-    }
-    return insertResult.affectedRows;
+    return updateResult.affectedRows;
   },
 };
