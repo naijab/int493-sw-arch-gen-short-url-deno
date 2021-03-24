@@ -1,3 +1,4 @@
+import "https://deno.land/x/dotenv/load.ts";
 import { APP_NAME } from "../config/config.ts";
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
@@ -8,6 +9,7 @@ export default {
     response.status = 200;
     response.body = {
       message: `Hello from: ${APP_NAME}`,
+      connection_pool: `${Deno.env.get("DB_POOL_SIZE")}`
     };
   },
   getAll: async ({ params, response }: { params: {}; response: any }) => {
