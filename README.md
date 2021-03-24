@@ -3,8 +3,8 @@
 > URL Shortener API's with Deno and MariaDB
 
 ## Tag Version
-- `git fetch --all --tags --prune` for fetching all tags
-- `git tag` for listing all tag
+- `make fetch-version` for fetching all tags
+- `make list-version` for listing all tag
 - `git checkout <tag name>` for checkout tag version
 
 ## Must install

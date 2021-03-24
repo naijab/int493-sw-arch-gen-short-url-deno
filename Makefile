@@ -85,3 +85,11 @@ build-binary:
 lint:
 	@echo "🔥 URL Shortener ===> Check and Lint ..."
 	deno lint --unstable
+
+list-version:
+	@echo "🔥 URL Shortener ===> All Version..."
+	git tag -n99
+
+fetch-version:
+	@echo "🔥 URL Shortener ===> Fetch Version..."
+	git fetch --all --tags --prune
