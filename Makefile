@@ -40,6 +40,10 @@ stop-app-docker:
 	@echo "🔥 URL Shortener ===> Stop App with Docker ..."
 	docker-compose -f docker-compose-app.yaml down
 
+build-db-docker:
+	@echo "🔥 URL Shortener ===> Build Database with Docker ..."
+	docker-compose -f docker-compose-db.yaml up -d --build
+
 start-db-docker:
 	@echo "🔥 URL Shortener ===> Start Database with Docker ..."
 	docker-compose -f docker-compose-db.yaml up -d
