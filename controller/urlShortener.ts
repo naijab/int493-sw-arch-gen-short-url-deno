@@ -101,6 +101,15 @@ export default {
       const link = await linkRepository.create({
         full: body.url,
       });
+      if (!link) {
+        let err = `Error: Cannot create link : ${body.link}`;
+        log.error(err);
+        response.status = 400;
+        response.body = {
+          message: err,
+        };
+        return;
+      }
       response.status = 200;
       response.body = {
         link: link.short,
