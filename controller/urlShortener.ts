@@ -88,8 +88,10 @@ export default {
     }
   },
   create: async ({ request, response }: { request: any; response: any }) => {
-    const body = await request.body().value;
+
     try {
+      const body = await request.body().value;
+      log.info(`Create link request : ${JSON.stringify(body)}`)
       if (!body.url) {
         log.error(`Error: Cannot create link : invalid body`)
         response.status = 400;
