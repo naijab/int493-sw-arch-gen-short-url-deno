@@ -102,7 +102,7 @@ export default {
         full: body.url,
       });
       if (!link) {
-        let err = `Error: Cannot create link : ${body.link}`;
+        let err = `Error: Cannot create link`;
         log.error(err);
         response.status = 400;
         response.body = {

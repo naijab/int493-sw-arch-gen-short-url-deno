@@ -1,3 +1,4 @@
+import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { Client } from "https://deno.land/x/mysql/mod.ts";
 import {DATABASE_NAME, TABLE} from "./config.ts";
@@ -13,6 +14,8 @@ client.connect({
 });
 
 const run = async () => {
+    log.info("start run script create table if not exist...");
+
     // Create Database if not exist
     await client.execute(`CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME}`);
 
@@ -29,7 +32,7 @@ const run = async () => {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     `);
 
-    console.log("run script create table if not exist completed...");
+    log.info("run script create table if not exist completed...");
 }
 
 run();
