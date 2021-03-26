@@ -1,14 +1,14 @@
+import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import { APP_NAME } from "../config/config.ts";
+import {APP_NAME, APP_VERSION} from "../config/config.ts";
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
-import Counter from "../interface/Counter.ts";
 
 export default {
   hello: async ({ response }: { params: {}; response: any }) => {
     response.status = 200;
     response.body = {
-      message: `Hello from: ${APP_NAME}`,
+      message: `Hello from: ${APP_NAME} -- ${APP_VERSION}`,
       connection_pool: `${Deno.env.get("DB_POOL_SIZE")}`
     };
   },
@@ -18,7 +18,7 @@ export default {
       response.status = 200;
       response.body = result;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -49,7 +49,7 @@ export default {
         return;
       }
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -80,7 +80,7 @@ export default {
       };
       return;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -89,24 +89,34 @@ export default {
   },
   create: async ({ request, response }: { request: any; response: any }) => {
     const body = await request.body().value;
-    if (!body.url) {
-      response.status = 400;
-      response.body = {
-        message: "Invalid body",
-      };
-      return;
-    }
     try {
+      if (!body.url) {
+        log.error(`Error: Cannot create link : invalid body`)
+        response.status = 400;
+        response.body = {
+          message: "Invalid body",
+        };
+        return;
+      }
       const link = await linkRepository.create({
         full: body.url,
       });
+      if (!link) {
+        let err = `Error: Cannot create link : ${body.link}`;
+        log.error(err);
+        response.status = 400;
+        response.body = {
+          message: err,
+        };
+        return;
+      }
       response.status = 200;
       response.body = {
         link: link.short,
       };
       return;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,

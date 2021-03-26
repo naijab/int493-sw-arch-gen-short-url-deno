@@ -1,3 +1,4 @@
+import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import client from "../config/db.ts";
 import Link from "../interface/Link.ts";
 import { HOSTNAME, TABLE } from "../config/config.ts";
@@ -21,27 +22,30 @@ export default {
     );
     return result[0];
   },
-  create: async ({ full }: Link) => {
-    const resultFull = await client.query(
-      `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
-      [full]
-    );
-
-    // Check if have exist full url
-    let existsURL = resultFull[0];
-    if (existsURL) {
-      return { short: `${HOSTNAME}/l/${existsURL.short}` };
+  create: async ({ full }: Link): Promise<Link|null> => {
+    try {
+      const result = await client.transaction(async (_) => {
+        let genId = nanoid(6);
+        try {
+          await client.execute(
+              `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
+              [genId, full]
+          );
+        } catch (e) {
+          log.error(e);
+        }
+        return await client.query(
+            `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
+            [full]
+        );
+      });
+      let url = result[0];
+      log.info(`Create short link : [Shorted link] : ${url}`)
+      return { short: `${HOSTNAME}/l/${url.short}` };
+    } catch (e) {
+      log.info(`Create short link : ${e}`)
     }
-    // It not have any full url
-    let genId = nanoid(6);
-    const insertResult = await client.execute(
-      `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
-      [genId, full]
-    );
-    if (insertResult.affectedRows == 0) {
-      return Promise.reject("create -- Cannot Create Link");
-    }
-    return { short: `${HOSTNAME}/l/${genId}` };
+    return null;
   },
   updateStatByShort: async ({ short }: Link) => {
     const updateResult = await client.execute(
