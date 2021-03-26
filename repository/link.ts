@@ -23,9 +23,6 @@ export default {
     return result[0];
   },
   create: async ({ full }: Link) => {
-    // FIXME: Dead lock when try to create table
-    // TODO: Try transaction
-
     const result = await client.transaction(async (_) => {
       let genId = nanoid(6);
       try {
