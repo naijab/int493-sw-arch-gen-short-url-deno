@@ -1,4 +1,5 @@
 import "https://deno.land/x/dotenv/load.ts";
+import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import { APP_NAME } from "../config/config.ts";
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
@@ -18,7 +19,7 @@ export default {
       response.status = 200;
       response.body = result;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -49,7 +50,7 @@ export default {
         return;
       }
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -64,9 +65,10 @@ export default {
     response: any;
   }) => {
     try {
-      const link: Link = await linkRepository.getStatByShort({
+      const link: Counter = await linkRepository.getStatByShort({
         short: params.short,
       });
+      console.log(`link : ${JSON.stringify(link)}`)
       if (!link) {
         response.status = 404;
         response.body = {
@@ -80,7 +82,7 @@ export default {
       };
       return;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,
@@ -106,7 +108,7 @@ export default {
       };
       return;
     } catch (error) {
-      console.error(error);
+      log.error(error);
       response.status = 400;
       response.body = {
         message: `Error: ${error}`,

@@ -9,22 +9,22 @@ export default {
   },
   getByShort: async ({ short }: Link) => {
     const result = await client.query(
-      `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-      [short]
+        `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+        [short]
     );
     return result[0];
   },
   getStatByShort: async ({ short }: Link) => {
     const result = await client.query(
-      `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-      [short]
+        `SELECT COUNT(id) as count FROM ${TABLE.COUNTER} WHERE short = ?`,
+        [short]
     );
     return result[0];
   },
   create: async ({ full }: Link) => {
     const resultFull = await client.query(
-      `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
-      [full]
+        `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
+        [full]
     );
 
     // Check if have exist full url
@@ -35,8 +35,8 @@ export default {
     // It not have any full url
     let genId = nanoid(6);
     const insertResult = await client.execute(
-      `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
-      [genId, full]
+        `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
+        [genId, full]
     );
     if (insertResult.affectedRows == 0) {
       return Promise.reject("create -- Cannot Create Link");
@@ -45,8 +45,8 @@ export default {
   },
   updateStatByShort: async ({ short }: Link) => {
     const updateResult = await client.execute(
-      `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
-      [short]
+        `INSERT INTO ${TABLE.COUNTER} (short) VALUES (?)`,
+        [short]
     );
     if (updateResult.affectedRows == 0) {
       return Promise.reject("updateStatByShort -- Cannot Update Count Link");

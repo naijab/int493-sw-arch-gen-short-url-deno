@@ -1,4 +1,5 @@
 import "https://deno.land/x/dotenv/load.ts";
+import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import { Client } from "https://deno.land/x/mysql/mod.ts";
 import {DATABASE_NAME, TABLE} from "./config.ts";
 const client = await new Client();
@@ -13,23 +14,34 @@ client.connect({
 });
 
 const run = async () => {
+    log.info("start run script create table if not exist...");
+
     // Create Database if not exist
     await client.execute(`CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME}`);
 
-    // Create link table if not exists
+    // Create Link table if not exists
     await client.execute(`
         CREATE TABLE IF NOT EXISTS ${TABLE.LINK} (
             id INT(11) NOT NULL AUTO_INCREMENT,
             short VARCHAR(6) NOT NULL,
             full TEXT NOT NULL,
-            count INT(11) UNSIGNED NOT NULL DEFAULT 0,
             PRIMARY KEY (id),
             CONSTRAINT short_key UNIQUE (short),
             CONSTRAINT full_key UNIQUE (full)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     `);
 
-    console.log("run script create table if not exist completed...");
+    // Create Counter table if not exists
+    await client.execute(`
+        CREATE TABLE IF NOT EXISTS ${TABLE.COUNTER} (
+            id INT(11) NOT NULL AUTO_INCREMENT,
+            short VARCHAR(6) NOT NULL,
+            PRIMARY KEY (id),
+            INDEX (short)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    `);
+
+    log.info("successfully run script create table if not exist completed...");
 }
 
 run();
