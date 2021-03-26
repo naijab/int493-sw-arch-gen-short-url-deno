@@ -68,7 +68,6 @@ export default {
       const link: Counter = await linkRepository.getStatByShort({
         short: params.short,
       });
-      console.log(`link : ${JSON.stringify(link)}`)
       if (!link) {
         response.status = 404;
         response.body = {
