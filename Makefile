@@ -36,7 +36,6 @@ start-app-docker:
 status-app-docker:
 	@echo "🔥 URL Shortener ===> Status of App with Docker ..."
 	docker-compose -f docker-compose-app.yaml ps -a
-	docker-compose -f docker-compose-app.yaml ps -a
 
 stop-app-docker:
 	@echo "🔥 URL Shortener ===> Stop App with Docker ..."
