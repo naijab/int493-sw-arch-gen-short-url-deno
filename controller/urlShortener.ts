@@ -88,7 +88,6 @@ export default {
     }
   },
   create: async ({ request, response }: { request: any; response: any }) => {
-
     try {
       const body = await request.body().value;
       log.info(`Create link request : ${JSON.stringify(body)}`)

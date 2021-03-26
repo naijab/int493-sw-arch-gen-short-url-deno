@@ -43,7 +43,7 @@ export default {
       log.info(`Create short link : [Shorted link] : ${url}`)
       return { short: `${HOSTNAME}/l/${url.short}` };
     } catch (e) {
-      log.info(`Create short link : ${e}`)
+      log.error(`Error Create short link : ${e}`)
     }
     return null;
   },
