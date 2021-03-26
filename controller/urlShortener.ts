@@ -89,16 +89,17 @@ export default {
     }
   },
   create: async ({ request, response }: { request: any; response: any }) => {
-    const body = await request.body().value;
-    if (!body.url) {
-      log.error(`Error: Cannot create link : Invalid body`);
-      response.status = 400;
-      response.body = {
-        message: "Invalid body",
-      };
-      return;
-    }
+
     try {
+      const body = await request.body().value;
+      if (!body.url) {
+        log.error(`Error: Cannot create link : Invalid body`);
+        response.status = 400;
+        response.body = {
+          message: "Invalid body",
+        };
+        return;
+      }
       const link = await linkRepository.create({
         full: body.url,
       });
