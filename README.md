@@ -2,6 +2,9 @@
 
 > URL Shortener API's with Deno and MariaDB
 
+## System Architecture
+![System Architecture V.1.2](./system-arch-v2.png)
+
 ## Tag Version
 - `make fetch-version` for fetching all tags
 - `make list-version` for listing all tag
@@ -43,7 +46,7 @@
 - if want to check mysql variable config use 
   - `mysql -u root -p` for enter to mysql instance
   - `SHOW VARIABLES LIKE "max_connections";`
-
+  
 ----
 ## Danger Zone
 - `make clean-db-docker` for cleaning database data (format volumes)
