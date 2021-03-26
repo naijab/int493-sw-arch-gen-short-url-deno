@@ -26,8 +26,7 @@ export default {
     // FIXME: Dead lock when try to create table
     // TODO: Try transaction
 
-    const result = await client.transaction(async (conn) => {
-      // It not have any full url
+    const result = await client.transaction(async (_) => {
       let genId = nanoid(6);
       try {
         await client.execute(
@@ -42,8 +41,8 @@ export default {
           [full]
       );
     });
-    let url = result[0];
 
+    let url = result[0];
     return { short: `${HOSTNAME}/l/${url.short}` };
   },
   updateStatByShort: async ({ short }: Link) => {

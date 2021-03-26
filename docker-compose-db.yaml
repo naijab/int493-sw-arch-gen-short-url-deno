@@ -6,10 +6,9 @@ services:
     restart: always
     volumes:
       - db_data:/var/lib/mysql
-      - ./init.sql:/data/application/init.sql
       - ./mariadb.cnf:/etc/mysql/my.cnf
     environment:
-      MYSQL_DATABASE: 'project'
+      MYSQL_DATABASE: 'project_v2'
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports: 
       - 3307:3306
