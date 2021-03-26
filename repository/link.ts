@@ -24,6 +24,7 @@ export default {
   },
   create: async ({ full }: Link): Promise<Link|null> => {
     try {
+      log.info(`Create short link with full url: ${full}`)
       const result = await client.transaction(async (_) => {
         let genId = nanoid(6);
         try {
@@ -40,7 +41,7 @@ export default {
         );
       });
       let url = result[0];
-      log.info(`Create short link : [Shorted link] : ${url}`)
+      log.info(`Create short link : [Shorted link] : ${JSON.stringify(url)}`)
       return { short: `${HOSTNAME}/l/${url.short}` };
     } catch (e) {
       log.error(`Error Create short link : ${e}`)
