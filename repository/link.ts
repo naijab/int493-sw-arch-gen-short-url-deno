@@ -23,24 +23,28 @@ export default {
     return result[0];
   },
   create: async ({ full }: Link) => {
-    const result = await client.transaction(async (_) => {
-      let genId = nanoid(6);
-      try {
-        await client.execute(
-            `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
-            [genId, full]
+    try {
+      const result = await client.transaction(async (_) => {
+        let genId = nanoid(6);
+        try {
+          await client.execute(
+              `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
+              [genId, full]
+          );
+        } catch (e) {
+          log.error(e);
+        }
+        return await client.query(
+            `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
+            [full]
         );
-      } catch (e) {
-        log.error(e);
-      }
-      return await client.query(
-          `SELECT short, full FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
-          [full]
-      );
-    });
-
-    let url = result[0];
-    return { short: `${HOSTNAME}/l/${url.short}` };
+      });
+      let url = result[0];
+      log.info(`Create short link : [Shorted link] : ${url}`)
+      return { short: `${HOSTNAME}/l/${url.short}` };
+    } catch (e) {
+      log.info(`Create short link : ${e}`)
+    }
   },
   updateStatByShort: async ({ short }: Link) => {
     const updateResult = await client.execute(
