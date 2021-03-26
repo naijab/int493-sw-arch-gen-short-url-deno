@@ -1,6 +1,6 @@
 import "https://deno.land/x/dotenv/load.ts";
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
-import { APP_NAME } from "../config/config.ts";
+import { APP_NAME, APP_VERSION } from "../config/config.ts";
 import linkRepository from "../repository/link.ts";
 import Link from "../interface/Link.ts";
 import Counter from "../interface/Counter.ts";
@@ -9,7 +9,7 @@ export default {
   hello: async ({ response }: { params: {}; response: any }) => {
     response.status = 200;
     response.body = {
-      message: `Hello from: ${APP_NAME}`,
+      message: `Hello from: ${APP_NAME} -- version ${APP_VERSION}`,
       connection_pool: `${Deno.env.get("DB_POOL_SIZE")}`
     };
   },
