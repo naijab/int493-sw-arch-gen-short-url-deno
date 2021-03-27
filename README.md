@@ -3,7 +3,7 @@
 > URL Shortener API's with Deno and MariaDB
 
 ## System Architecture
-![System Architecture](./system-arch-v1.png)
+![System Architecture](./system-arch-v3.png)
 
 ## Tag Version
 - `make fetch-version` for fetching all tags
