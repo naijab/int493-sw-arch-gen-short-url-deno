@@ -1,4 +1,4 @@
-import Link from "../../interface/Link.ts";
+import Link from "../../model/Link.ts";
 
 export interface ILinkService {
   getAll: () => Promise<[Link]>;

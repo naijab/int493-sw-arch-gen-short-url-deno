@@ -2,7 +2,7 @@ import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { APP_NAME, APP_VERSION } from "../config/config.ts";
 import { LinkDatabaseRepository } from "../repository/link_db_repository.ts";
-import Link from "../interface/Link.ts";
+import Link from "../model/Link.ts";
 
 export class LinkController {
   private linkRepository: LinkDatabaseRepository;

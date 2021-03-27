@@ -1,6 +1,6 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import client from "../config/db.ts";
-import Link from "../interface/Link.ts";
+import Link from "../model/Link.ts";
 import { HOSTNAME, TABLE } from "../config/config.ts";
 import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 import { ILinkRepository } from "./base/link_repository_base.ts";
