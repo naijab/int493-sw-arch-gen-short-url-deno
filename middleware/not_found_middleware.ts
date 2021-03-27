@@ -1,4 +1,4 @@
-export default ({ response }: { response: any }) => {
+export const NotFoundMiddleware = ({ response }: { response: any }) => {
     response.status = 404;
     response.body = {
         success: false,

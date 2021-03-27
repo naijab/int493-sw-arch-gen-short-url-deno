@@ -7,7 +7,7 @@ import {
 
 const X_RESPONSE_TIME: string = "X-Response-Time";
 
-export default {
+export const LoggerMiddleware = {
     logger: async (
         { response, request }: { response: any, request: any },
         next: Function,
