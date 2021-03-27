@@ -20,7 +20,7 @@ export class LinkController {
     };
   }
 
-  async getAll({ params, response }: { params: {}; response: any }): Promise<void> {
+  async getAll({ response }: { response: any }): Promise<void> {
     try {
       const result = await this.linkRepository.getAll();
       response.status = 200;
