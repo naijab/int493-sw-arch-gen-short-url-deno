@@ -24,6 +24,10 @@ start:
 	@echo "🔥 URL Shortener ===> Dev App Starting ..."
 	deno run --allow-net --allow-read --allow-env index.ts
 
+start-pm2:
+	@echo "🔥 URL Shortener ===> App with PM2 Starting ..."
+	pm2 start index.ts --interpreter="deno" --interpreter-args="run --allow-net --allow-read --allow-env"
+
 build-app-docker:
 	@echo "🔥 URL Shortener ===> Building App with Docker ..."
 	docker-compose -f docker-compose-app.yaml up -d --build
