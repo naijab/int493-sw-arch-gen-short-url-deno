@@ -84,6 +84,10 @@ build-binary:
 	mkdir -p out
 	deno compile --unstable --allow-net --allow-env --allow-read --output=out/app index.ts 
 
+format-style:
+	@echo "🔥 URL Shortener ===> Formatting Code Style ..."
+	deno fmt ./..
+
 lint:
 	@echo "🔥 URL Shortener ===> Check and Lint ..."
 	deno lint --unstable
