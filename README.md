@@ -2,6 +2,8 @@
 
 > URL Shortener API's with Deno and MariaDB
 
+![version 1.3](https://img.shields.io/badge/version-v.1.3-blue)
+
 ## System Architecture
 
 ![System Architecture](./system-arch-v3.png)
