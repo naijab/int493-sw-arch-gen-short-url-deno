@@ -7,14 +7,14 @@ import { NotFoundMiddleware } from "./middleware/not_found_middleware.ts";
 import { LinkRouter } from "./route/link_router.ts";
 
 const app = new Application();
-const port: number = Number(Deno.env.get('PORT')) || 8080;
+const port: number = Number(Deno.env.get("PORT")) || 8080;
 
 // Logger Middleware
 app.use(LoggerMiddleware.logger);
 app.use(LoggerMiddleware.responseTime);
 
 // Register Router
-app.use(LinkRouter.routes())
+app.use(LinkRouter.routes());
 app.use(LinkRouter.allowedMethods());
 
 // 404 Route

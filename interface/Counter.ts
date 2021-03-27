@@ -1,5 +1,5 @@
 export default interface Count {
-    id?: number;
-    short?: string;
-    count?: number;
+  id?: number;
+  short?: string;
+  count?: number;
 }

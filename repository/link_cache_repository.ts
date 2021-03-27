@@ -6,7 +6,6 @@ import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 import { ILinkRepository } from "./base/link_repository_base.ts";
 
 export class LinkCacheRepository implements ILinkRepository {
-
   async create(fullUrl: string): Promise<Link | null> {
     // TODO: Implement connect to redis or key db get cached;
     return null;
@@ -20,8 +19,8 @@ export class LinkCacheRepository implements ILinkRepository {
   async getByShort(shortUrl: string): Promise<Link> {
     // TODO: Implement connect to redis or key db get cached;
     const result = await client.query(
-        `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-        [shortUrl]
+      `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      [shortUrl],
     );
     return result[0];
   }
@@ -29,10 +28,9 @@ export class LinkCacheRepository implements ILinkRepository {
   async getStatByShort(shortUrl: string): Promise<Link> {
     // TODO: Implement connect to redis or key db get cached;
     const result = await client.query(
-        `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-        [shortUrl]
+      `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      [shortUrl],
     );
     return result[0];
   }
-
 }

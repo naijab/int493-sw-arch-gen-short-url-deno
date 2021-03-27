@@ -1,6 +1,6 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import {APP_NAME, APP_VERSION} from "../config/config.ts";
+import { APP_NAME, APP_VERSION } from "../config/config.ts";
 import { LinkDatabaseRepository } from "../repository/link_db_repository.ts";
 import Link from "../interface/Link.ts";
 
@@ -16,7 +16,7 @@ export class LinkController {
     response.status = 200;
     response.body = {
       message: `Hello from: ${APP_NAME} -- ${APP_VERSION}`,
-      connection_pool: `${Deno.env.get("DB_POOL_SIZE")}`
+      connection_pool: `${Deno.env.get("DB_POOL_SIZE")}`,
     };
   }
 
@@ -34,7 +34,9 @@ export class LinkController {
     }
   }
 
-  async getByShort({ params, response}: { params: { short: string }; response: any; }): Promise<void> {
+  async getByShort(
+    { params, response }: { params: { short: string }; response: any },
+  ): Promise<void> {
     try {
       const short = params.short;
       const link: Link = await this.linkRepository.getByShort(short);
@@ -60,7 +62,9 @@ export class LinkController {
     }
   }
 
-  async getStatByShort({params, response}: {params: { short: string }, response: any}): Promise<void> {
+  async getStatByShort(
+    { params, response }: { params: { short: string }; response: any },
+  ): Promise<void> {
     try {
       const link: Link = await this.linkRepository.getStatByShort(params.short);
       if (!link) {
@@ -84,12 +88,14 @@ export class LinkController {
     }
   }
 
-  async create({ request, response }: { request: any; response: any }): Promise<void> {
+  async create(
+    { request, response }: { request: any; response: any },
+  ): Promise<void> {
     try {
       const body = await request.body().value;
-      log.info(`Create link request : ${JSON.stringify(body)}`)
+      log.info(`Create link request : ${JSON.stringify(body)}`);
       if (!body.url) {
-        log.error(`Error: Cannot create link : invalid body`)
+        log.error(`Error: Cannot create link : invalid body`);
         response.status = 400;
         response.body = {
           message: "Invalid body",
@@ -119,5 +125,4 @@ export class LinkController {
       };
     }
   }
-
 }

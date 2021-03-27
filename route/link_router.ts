@@ -5,10 +5,10 @@ const router = new Router();
 const controller = new LinkController();
 
 router
-    .get("/", controller.hello)
-    .get("/l", controller.getAll)
-    .get("/l/:short", controller.getByShort)
-    .get("/l/:short/stats", controller.getStatByShort)
-    .post("/link", controller.create);
+  .get("/", controller.hello)
+  .get("/l", controller.getAll)
+  .get("/l/:short", controller.getByShort)
+  .get("/l/:short/stats", controller.getStatByShort)
+  .post("/link", controller.create);
 
 export const LinkRouter = router;
