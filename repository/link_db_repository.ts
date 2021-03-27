@@ -3,10 +3,9 @@ import client from "../config/db.ts";
 import Link from "../model/Link.ts";
 import { HOSTNAME, TABLE } from "../config/config.ts";
 import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
-import { ILinkRepository } from "./base/link_repository_base.ts";
 
-export class LinkDatabaseRepository implements ILinkRepository {
-  async create(fullUrl: string): Promise<Link | null> {
+export const LinkDatabaseRepository = {
+  create: async (fullUrl: string): Promise<Link | null> => {
     try {
       log.info(`Create short link with full url: ${fullUrl}`);
       const result = await client.transaction(async (_) => {
@@ -31,29 +30,29 @@ export class LinkDatabaseRepository implements ILinkRepository {
       log.error(`Error Create short link : ${e}`);
     }
     return null;
-  }
+  },
 
-  async getAll(): Promise<[Link]> {
+  getAll: async (): Promise<[Link]> => {
     return await client.query(`SELECT * FROM ${TABLE.LINK}`);
-  }
+  },
 
-  async getByShort(shortUrl: string): Promise<Link> {
+  getByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
       `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [shortUrl],
     );
     return result[0];
-  }
+  },
 
-  async getStatByShort(shortUrl: string): Promise<Link> {
+  getStatByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
       `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [shortUrl],
     );
     return result[0];
-  }
+  },
 
-  async updateStatByShort(shortUrl: string): Promise<number> {
+  updateStatByShort: async (shortUrl: string): Promise<number> => {
     const updateResult = await client.execute(
       `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
       [shortUrl],
@@ -63,5 +62,5 @@ export class LinkDatabaseRepository implements ILinkRepository {
       return Promise.reject("updateStatByShort -- Cannot Update Count Link");
     }
     return result;
-  }
-}
+  },
+};
