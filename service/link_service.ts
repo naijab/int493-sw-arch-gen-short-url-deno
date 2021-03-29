@@ -43,33 +43,10 @@ export const LinkService = {
         }
     },
 
-    getStatByShort: async (shortUrl: string): Promise<Link | null> => {
-        try {
-            let link: Link | null;
-            const cached = await redis.get(shortUrl);
-            if (cached) {
-                log.info(`[LinkService] -- [Get stat by short] : from redis`);
-                link = JSON.parse(cached);
-                return link;
-            }
-            log.info(`[LinkService] -- [Get stat by short] : from db`);
-            link = await LinkDatabaseRepository.getStatByShort(shortUrl);
-            if (link){
-                await redis.set(shortUrl, JSON.stringify(link));
-            }
-            return link;
-        } catch (e) {
-            log.error(`[LinkService] -- [Get stat by short] Error : ${e}`);
-        }
-        return null;
-    },
-
     updateStatByShort: async (link: Link): Promise<number> => {
         try {
-            if (link && link.short != null && link.count != null) {
-                link.count += 1;
-                log.info(`[LinkService] -- [Update stat by short] : Redis, DB`);
-                await redis.set(link.short, JSON.stringify(link));
+            if (link && link.short != null) {
+                await redis.del(link.short);
                 return await LinkDatabaseRepository.updateStatByShort(link.short);
             }
         } catch (e) {

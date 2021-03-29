@@ -41,11 +41,7 @@ export const LinkController = {
         };
         return;
       }
-
-      log.info(`Before Update : ${JSON.stringify(link)}`);
       const updateResult = await LinkService.updateStatByShort(link);
-      log.info(`After Update : ${JSON.stringify(updateResult)}`);
-
       if (updateResult && updateResult > 0) {
         response.status = 302;
         response.headers.set("Location", link.full);
@@ -65,7 +61,7 @@ export const LinkController = {
   ): Promise<void> => {
     try {
       const short = params.short;
-      const link: Link | null = await LinkService.getStatByShort(short);
+      const link: Link | null = await LinkService.getByShort(short);
       if (!link) {
         response.status = 404;
         response.body = {

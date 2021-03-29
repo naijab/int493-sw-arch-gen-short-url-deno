@@ -40,15 +40,6 @@ export const LinkDatabaseRepository = {
       `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [shortUrl],
     );
-    log.info(`result : ${result[0].count}`)
-    return result[0];
-  },
-
-  getStatByShort: async (shortUrl: string): Promise<Link> => {
-    const result = await client.query(
-      `SELECT count FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
-      [shortUrl],
-    );
     return result[0];
   },
 
