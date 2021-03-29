@@ -6,11 +6,21 @@ import {LinkDatabaseRepository} from "../repository/link_db_repository.ts";
 
 export const LinkService = {
 
-    create: async (fullUrl: string): Promise<Link | null> => {
+    create: async (fullUrl: string): Promise<String | null> => {
         try {
-            let link: Link | null;
+            let link: String | null;
+            const cached = await redis.get(fullUrl);
+            if (cached) {
+                log.info(`[LinkService] -- [Create link by full] : from redis`);
+                link = JSON.parse(cached);
+                return link;
+            }
             log.info(`[LinkService] -- [Create link by full] : from db`);
-            link = await LinkDatabaseRepository.create(fullUrl);
+            link = await LinkDatabaseRepository.createShortLink(fullUrl);
+
+            if (link!=null) {
+                await redis.set(fullUrl, JSON.stringify(link))
+            }
             return link;
         } catch (e) {
             log.error(`[LinkService] -- [Create link by full] Error : ${e}`);
