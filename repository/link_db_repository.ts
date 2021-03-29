@@ -2,15 +2,14 @@ import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import client from "../config/db.ts";
 import Link from "../model/Link.ts";
 import { HOSTNAME, TABLE } from "../config/config.ts";
-import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts"
 
 export const LinkDatabaseRepository = {
   create: async (fullUrl: string): Promise<Link | null> => {
     try {
-      log.info(`Create short link with full url: ${fullUrl}`);
       const result = await client.transaction(async (_) => {
-        let genId = nanoid(6);
         try {
+          let genId = nanoid(6);
           await client.execute(
             `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
             [genId, fullUrl],
@@ -27,7 +26,7 @@ export const LinkDatabaseRepository = {
       log.info(`Create short link : [Shorted link] : ${JSON.stringify(url)}`);
       return { short: `${HOSTNAME}/l/${url.short}` };
     } catch (e) {
-      log.error(`Error Create short link : ${e}`);
+      log.error(`[LinkDBRepository] -- [Create link by full] Error : ${e}`);
     }
     return null;
   },
@@ -38,9 +37,10 @@ export const LinkDatabaseRepository = {
 
   getByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
-      `SELECT full FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [shortUrl],
     );
+    log.info(`result : ${result[0].count}`)
     return result[0];
   },
 

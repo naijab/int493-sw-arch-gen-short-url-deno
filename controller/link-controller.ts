@@ -1,8 +1,8 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
 import { APP_NAME, APP_VERSION } from "../config/config.ts";
-import { LinkDatabaseRepository as linkRepository } from "../repository/link_db_repository.ts";
 import Link from "../model/Link.ts";
+import { LinkService } from "../service/link_service.ts";
 
 export const LinkController = {
   hello: async ({ response }: { params: {}; response: any }): Promise<void> => {
@@ -15,7 +15,7 @@ export const LinkController = {
 
   getAll: async ({ response }: { response: any }): Promise<void> => {
     try {
-      const result = await linkRepository.getAll();
+      const result = await LinkService.getAll();
       response.status = 200;
       response.body = result;
     } catch (error) {
@@ -32,7 +32,8 @@ export const LinkController = {
   ): Promise<void> => {
     try {
       const short = params.short;
-      const link: Link = await linkRepository.getByShort(short);
+      const link: Link | null = await LinkService.getByShort(short);
+
       if (!link) {
         response.status = 404;
         response.body = {
@@ -40,7 +41,11 @@ export const LinkController = {
         };
         return;
       }
-      const updateResult = await linkRepository.updateStatByShort(short);
+
+      log.info(`Before Update : ${JSON.stringify(link)}`);
+      const updateResult = await LinkService.updateStatByShort(link);
+      log.info(`After Update : ${JSON.stringify(updateResult)}`);
+
       if (updateResult && updateResult > 0) {
         response.status = 302;
         response.headers.set("Location", link.full);
@@ -59,7 +64,8 @@ export const LinkController = {
     { params, response }: { params: { short: string }; response: any },
   ): Promise<void> => {
     try {
-      const link: Link = await linkRepository.getStatByShort(params.short);
+      const short = params.short;
+      const link: Link | null = await LinkService.getStatByShort(short);
       if (!link) {
         response.status = 404;
         response.body = {
@@ -95,7 +101,8 @@ export const LinkController = {
         };
         return;
       }
-      const link = await linkRepository.create(body.url);
+
+      const link = await LinkService.create(body.url);
       if (!link) {
         let err = `Error: Cannot create link`;
         log.error(err);

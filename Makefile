@@ -103,3 +103,7 @@ list-version:
 fetch-version:
 	@echo "🔥 URL Shortener ===> Fetch Version..."
 	git fetch --all --tags --prune
+
+redis-clear-all:
+	@echo "🔥 URL Shortener ===> Clear all data in redis..."
+	redis-cli flushall

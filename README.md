@@ -71,3 +71,4 @@
 ## Danger Zone
 
 - `make clean-db-docker` for cleaning database data (format volumes)
+- `make redis-clear-all` for cleaning redis data
