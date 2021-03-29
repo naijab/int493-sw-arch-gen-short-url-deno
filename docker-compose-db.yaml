@@ -18,51 +18,16 @@ services:
         soft: "66666"
         hard: "66666"
 
-  # sysbench-ps:
-  #   image: perconalab/sysbench
-  #   depends_on:
-  #     - short_db
-  #   command: >
-  #       bash -c "
-  #           set -o xtrace
-  #           sleep 20
-  #           mysql \
-  #               --host=short_db \
-  #               --port=3307 \
-  #               --user=root \
-  #               --password=${DB_PASSWORD} \
-  #               -e 'CREATE DATABASE IF NOT EXISTS sbtest'
-  #           sysbench \
-  #               --db-driver=mysql \
-  #               --mysql-host=short_db \
-  #               --mysql-port=3307 \
-  #               --mysql-user=root \
-  #               --mysql-password=${DB_PASSWORD} \
-  #               --mysql-db=sbtest \
-  #               --mysql-table-engine=innodb \
-  #               --oltp-table-size=1000000 \
-  #               /usr/share/sysbench/tests/include/oltp_legacy/oltp.lua \
-  #               prepare
-  #           sysbench \
-  #               --rate=200 \
-  #               --threads=64 \
-  #               --report-interval=10 \
-  #               --time=0 \
-  #               --events=0 \
-  #               --rand-type=pareto \
-  #               --db-driver=mysql \
-  #               --mysql-host=short_db \
-  #               --mysql-port=3307 \
-  #               --mysql-user=root \
-  #               --mysql-password=${DB_PASSWORD} \
-  #               --mysql-db=sbtest \
-  #               --mysql-table-engine=innodb \
-  #               --oltp-reconnect \
-  #               --oltp-table-size=1000000 \
-  #               /usr/share/sysbench/tests/include/oltp_legacy/select.lua \
-  #               run
-  #       "
+  short_redis:
+    image: redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6666:6379
 
 volumes:
   db_data:
+    driver: local
+  redis_data:
     driver: local

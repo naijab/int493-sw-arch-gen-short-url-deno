@@ -26,7 +26,7 @@ start:
 
 start-pm2:
 	@echo "🔥 URL Shortener ===> App with PM2 Starting ..."
-	pm2 start index.ts --interpreter="deno" --interpreter-args="run --allow-net --allow-read --allow-env"
+	pm2 start index.ts -i 4 --interpreter="deno" --interpreter-args="run --allow-net --allow-read --allow-env" -f
 
 build-app-docker:
 	@echo "🔥 URL Shortener ===> Building App with Docker ..."
