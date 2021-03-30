@@ -8,20 +8,13 @@ export const LinkService = {
 
     create: async (fullUrl: string): Promise<String | null> => {
         try {
-            let link: String | null;
-            const cached = await redis.get(fullUrl);
-            if (cached) {
-                log.info(`[LinkService] -- [Create link by full] : from redis`);
-                link = JSON.parse(cached);
-                return link;
+            let isExistLink = await LinkDatabaseRepository.getByFull(fullUrl);
+            if (isExistLink && isExistLink.short) {
+                log.info(`[LinkService] -- [Create link by full] -- link exists : from db`);
+                return isExistLink.short;
             }
             log.info(`[LinkService] -- [Create link by full] : from db`);
-            link = await LinkDatabaseRepository.createShortLink(fullUrl);
-
-            if (link!=null) {
-                await redis.set(fullUrl, JSON.stringify(link))
-            }
-            return link;
+            return await LinkDatabaseRepository.createShortLink(fullUrl);
         } catch (e) {
             log.error(`[LinkService] -- [Create link by full] Error : ${e}`);
         }

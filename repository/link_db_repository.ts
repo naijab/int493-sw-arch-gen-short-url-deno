@@ -24,6 +24,14 @@ export const LinkDatabaseRepository = {
     return await client.query(`SELECT * FROM ${TABLE.LINK}`);
   },
 
+  getByFull: async (fullUrl: string): Promise<Link> => {
+    const result = await client.query(
+        `SELECT * FROM ${TABLE.LINK} WHERE full = ? LIMIT 1`,
+        [fullUrl],
+    );
+    return result[0];
+  },
+
   getByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
       `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
