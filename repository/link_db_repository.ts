@@ -8,7 +8,7 @@ import {TABLE} from "../config/config.ts";
 export const LinkDatabaseRepository = {
   createShortLink: async (fullUrl: string): Promise<String | null> => {
     try {
-      let genId = nanoid(6);
+      let genId = nanoid(5);
       await client.execute(
           `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
           [genId, fullUrl],
