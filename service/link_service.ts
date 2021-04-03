@@ -1,25 +1,25 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import Link from "../model/Link.ts";
 import redis from "../config/redis.ts";
-import {LinkDatabaseRepository} from "../repository/link_db_repository.ts";
+import { LinkDatabaseRepository } from "../repository/link_db_repository.ts";
 
 
 export const LinkService = {
 
-    create: async (fullUrl: string): Promise<String | null> => {
+    create: async (fullUrl: string): Promise<Link | null> => {
         try {
-            let link: String | null;
-            const cached = await redis.get(fullUrl);
-            if (cached) {
-                log.info(`[LinkService] -- [Create link by full] : from redis`);
-                link = JSON.parse(cached);
-                return link;
-            }
+            let link: Link | null;
+            // const cached = await redis.get(fullUrl);
+            // if (cached) {
+            //     log.info(`[LinkService] -- [Create link by full] : from redis`);
+            //     link = JSON.parse(cached);
+            //     return link;
+            // }
             log.info(`[LinkService] -- [Create link by full] : from db`);
             link = await LinkDatabaseRepository.createShortLink(fullUrl);
 
-            if (link!=null) {
-                await redis.set(fullUrl, JSON.stringify(link))
+            if (link != null) {
+                await redis.set(link.full, JSON.stringify(link))
             }
             return link;
         } catch (e) {
@@ -43,7 +43,7 @@ export const LinkService = {
             }
             log.info(`[LinkService] -- [Get link by short] : from db`);
             link = await LinkDatabaseRepository.getByShort(shortUrl);
-            if (link){
+            if (link) {
                 await redis.set(shortUrl, JSON.stringify(link));
             }
             return link;

@@ -1,19 +1,16 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import client from "../config/db.ts";
 import Link from "../model/Link.ts";
-
-import { nanoid } from "https://deno.land/x/nanoid/mod.ts"
-import {TABLE} from "../config/config.ts";
+import { TABLE } from "../config/config.ts";
 
 export const LinkDatabaseRepository = {
-  createShortLink: async (fullUrl: string): Promise<String | null> => {
+  createShortLink: async (fullUrl: string): Promise<Link | null> => {
     try {
-      let genId = nanoid(5);
       await client.execute(
-          `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
-          [genId, fullUrl],
+        `INSERT INTO ${TABLE.LINK} (full) VALUES (?)`,
+        [fullUrl],
       );
-      return genId;
+      return await client.query(`SELECT * FROM ${TABLE.LINK} ORDER BY id DESC LIMIT 1`);
     } catch (e) {
       log.error(`[LinkDBRepository] -- [Create link by full] Error : ${e}`);
     }

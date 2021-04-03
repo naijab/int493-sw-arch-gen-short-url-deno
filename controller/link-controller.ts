@@ -1,6 +1,6 @@
 import * as log from "https://deno.land/std@0.91.0/log/mod.ts";
 import "https://deno.land/x/dotenv/load.ts";
-import {APP_NAME, APP_VERSION, HOSTNAME} from "../config/config.ts";
+import { APP_NAME, APP_VERSION, HOSTNAME } from "../config/config.ts";
 import Link from "../model/Link.ts";
 import { LinkService } from "../service/link_service.ts";
 
@@ -98,7 +98,7 @@ export const LinkController = {
         return;
       }
 
-      const link = await LinkService.create(body.url);
+      const link: Link | null = await LinkService.create(body.url);
       if (!link) {
         let err = `Error: Cannot create link`;
         log.error(err);
@@ -110,7 +110,7 @@ export const LinkController = {
       }
       response.status = 200;
       response.body = {
-        link: `${HOSTNAME}/l/${link}`,
+        link: `${HOSTNAME}/l/${link.id}`,
       };
       return;
     } catch (error) {
