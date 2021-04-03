@@ -10,7 +10,11 @@ export const LinkDatabaseRepository = {
         `INSERT INTO ${TABLE.LINK} (full) VALUES (?)`,
         [fullUrl],
       );
-      return await client.query(`SELECT * FROM ${TABLE.LINK} ORDER BY id DESC LIMIT 1`)[0];
+      const link = await client.query(`SELECT * FROM ${TABLE.LINK} ORDER BY id DESC LIMIT 1`);
+      if(link != null){
+        return link[0];
+      }
+      return  null;
     } catch (e) {
       log.error(`[LinkDBRepository] -- [Create link by full] Error : ${e}`);
     }
