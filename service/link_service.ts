@@ -18,7 +18,7 @@ export const LinkService = {
             log.info(`[LinkService] -- [Create link by full] : from db`);
             link = await LinkDatabaseRepository.createShortLink(fullUrl);
 
-            if (link != null) {
+            if (link != null && link.id != null ) {
                 await redis.set(link.id.toString(), JSON.stringify(link))
             }
             return link;
