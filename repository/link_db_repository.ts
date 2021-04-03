@@ -23,7 +23,7 @@ export const LinkDatabaseRepository = {
 
   getByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
-      `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
+      `SELECT * FROM ${TABLE.LINK} WHERE id = ? LIMIT 1`,
       [shortUrl],
     );
     return result[0];
@@ -31,7 +31,7 @@ export const LinkDatabaseRepository = {
 
   updateStatByShort: async (shortUrl: string): Promise<number> => {
     const updateResult = await client.execute(
-      `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE short = ?`,
+      `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE id = ?`,
       [shortUrl],
     );
     let result = updateResult.affectedRows;

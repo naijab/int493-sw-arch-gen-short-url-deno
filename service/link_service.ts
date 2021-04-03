@@ -19,7 +19,7 @@ export const LinkService = {
             link = await LinkDatabaseRepository.createShortLink(fullUrl);
 
             if (link != null) {
-                await redis.set(link.full, JSON.stringify(link))
+                await redis.set(link.id, JSON.stringify(link))
             }
             return link;
         } catch (e) {
@@ -55,9 +55,9 @@ export const LinkService = {
 
     updateStatByShort: async (link: Link): Promise<number> => {
         try {
-            if (link && link.short != null) {
-                await redis.del(link.short);
-                return await LinkDatabaseRepository.updateStatByShort(link.short);
+            if (link && link.id != null) {
+                await redis.del(link.id);
+                return await LinkDatabaseRepository.updateStatByShort(link.id);
             }
         } catch (e) {
             log.error(`[LinkService] -- [Update stat by short] Error: ${e}`);
