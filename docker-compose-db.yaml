@@ -18,6 +18,12 @@ services:
         soft: "66666"
         hard: "66666"
 
+  short_redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+
 #  redis-node-0:
 #    image: docker.io/bitnami/redis-cluster:6.2-debian-10
 #    volumes:
