@@ -26,8 +26,6 @@ export const LinkService = {
             await redis.hset(short, "full", fullUrl);
             await redis.hset(short, "count", 0);
 
-            const rawCreate = await redis.hmget(short, "short", "full", "count");
-            log.info(`[LinkService] -- [Create link by full] Created from redis : ${rawCreate}`);
             return {
                 short: short,
                 full: fullUrl,
