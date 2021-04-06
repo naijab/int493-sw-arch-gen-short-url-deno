@@ -8,24 +8,28 @@ export const LinkService = {
 
     create: async (fullUrl: string): Promise<Link | null> => {
         try {
-            let link: Link | null;
+            // Check full url is hash exist
             const shortInCached = await redis.get(fullUrl);
             if (shortInCached) {
-                const cached = await redis.get(shortInCached);
-                if (cached) {
-                    link = JSON.parse(cached);
-                    return link;
-                }
+                return await LinkService.getByShort(shortInCached);
             }
+
+            // Generate short url
             const short = nanoid(5);
-            const newLink: Link = {
+
+            // Save to full url
+            await redis.set(fullUrl, short);
+
+            // Save to hash object
+            await redis.hset(short, "short", short);
+            await redis.hset(short, "full", fullUrl);
+            await redis.hset(short, "count", 0);
+
+            return {
                 short: short,
                 full: fullUrl,
-                count: 0
+                count: 0,
             };
-            await redis.set(fullUrl, short);
-            await redis.set(short, JSON.stringify(newLink));
-            return newLink;
         } catch (e) {
             log.error(`[LinkService] -- [Create link by full] Error : ${e}`);
         }
@@ -38,13 +42,21 @@ export const LinkService = {
 
     getByShort: async (shortUrl: string): Promise<Link | null> => {
         try {
-            let link: Link | null
-            const cached = await redis.get(shortUrl);
-            log.info(`Link in redis : ${JSON.stringify(cached)}`);
-            if (cached) {
-                log.info(`[LinkService] -- [Get link by short] : from redis`);
-                link = JSON.parse(cached);
-                return link;
+            const result = await redis.hmget(shortUrl, "short", "full", "count");
+            if (result.length > 3) {
+                const short = result[0];
+                const full = result[1];
+                const countRaw = result[2];
+
+                if (short && full && countRaw) {
+                    const countStr  = countRaw as string;
+                    const count = Number(countStr);
+                    return {
+                        short,
+                        full,
+                        count,
+                    }
+                }
             }
             return null;
         } catch (e) {
@@ -54,25 +66,13 @@ export const LinkService = {
     },
 
     getStatByShort: async (shortUrl: string): Promise<Link | null> => {
-        try {
-            let link: Link | null
-            const cached = await redis.get(shortUrl);
-            if (cached) {
-                link = JSON.parse(cached);
-                return link;
-            }
-            return null;
-        } catch (e) {
-            log.error(`[LinkService] -- [Get link by short] Error : ${e}`);
-            return null;
-        }
+        return await LinkService.getByShort(shortUrl);
     },
 
     updateStatByShort: async (link: Link): Promise<boolean> => {
         try {
-            link.count! += 1;
-            log.info(`Update stat --- ${JSON.stringify(link)}`);
-            await redis.set(link.short!, JSON.stringify(link))
+            // Update count to hash object
+            await redis.hset(link.short!, "count", link.count!+1);
             return true;
         } catch (e) {
             log.error(`[LinkService] -- [Update stat by short] Error: ${e}`);
