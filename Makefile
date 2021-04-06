@@ -44,12 +44,12 @@ status-app-docker:
 
 stop-app-docker:
 	@echo "🔥 URL Shortener ===> Stop App with Docker ..."
-	docker-compose -f docker-compose-app.yaml down
+	docker-compose -f docker-compose-app.yaml down --remove-orphans
 	docker-compose -f docker-compose-app.yaml ps -a
 
 restart-app-docker:
 	@echo "🔥 URL Shortener ===> Restart App with Docker ..."
-	docker-compose -f docker-compose-app.yaml down
+	docker-compose -f docker-compose-app.yaml down --remove-orphans
 	docker-compose -f docker-compose-app.yaml up -d --remove-orphans
 	docker-compose -f docker-compose-app.yaml ps -a
 
@@ -65,7 +65,7 @@ start-db-docker:
 
 stop-db-docker:
 	@echo "🔥 URL Shortener ===> Cleaning Database with Docker ..."
-	docker-compose -f docker-compose-db.yaml down
+	docker-compose -f docker-compose-db.yaml down --remove-orphans
 	docker-compose -f docker-compose-db.yaml ps -a
 
 restart-db-docker:
@@ -80,7 +80,7 @@ status-db-docker:
 
 clean-db-docker:
 	@echo "🔥 URL Shortener ===> Cleaning Database with Docker ..."
-	docker-compose -f docker-compose-db.yaml down --volumes
+	docker-compose -f docker-compose-db.yaml down --volumes --remove-orphans
 	docker-compose -f docker-compose-db.yaml ps -a
 
 build-binary:
