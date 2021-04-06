@@ -22,9 +22,11 @@ export const LinkService = {
             await redis.set(fullUrl, short);
 
             // Save to hash object
-            await redis.hset(short, "short", short);
-            await redis.hset(short, "full", fullUrl);
-            await redis.hset(short, "count", 0);
+            await redis.hmset(short, {
+                short: short,
+                full: fullUrl,
+                count: 0
+            })
 
             return {
                 short: short,
@@ -73,7 +75,7 @@ export const LinkService = {
     updateStatByShort: async (link: Link): Promise<boolean> => {
         try {
             // Update count to hash object
-            await redis.hset(link.short!, "count", link.count!+1);
+            await redis.hincrby(link.short!, "count", 1);
             return true;
         } catch (e) {
             log.error(`[LinkService] -- [Update stat by short] Error: ${e}`);
