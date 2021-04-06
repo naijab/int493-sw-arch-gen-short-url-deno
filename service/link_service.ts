@@ -11,6 +11,7 @@ export const LinkService = {
             // Check full url is hash exist
             const shortInCached = await redis.get(fullUrl);
             if (shortInCached) {
+                log.info(`[LinkService] -- [Create link by full] shortInCached : ${shortInCached}`);
                 return await LinkService.getByShort(shortInCached);
             }
 
@@ -25,6 +26,8 @@ export const LinkService = {
             await redis.hset(short, "full", fullUrl);
             await redis.hset(short, "count", 0);
 
+            const rawCreate = await redis.hmget(short, "short", "full", "count");
+            log.info(`[LinkService] -- [Create link by full] Created from redis : ${rawCreate}`);
             return {
                 short: short,
                 full: fullUrl,
@@ -43,7 +46,7 @@ export const LinkService = {
     getByShort: async (shortUrl: string): Promise<Link | null> => {
         try {
             const result = await redis.hmget(shortUrl, "short", "full", "count");
-            if (result.length > 3) {
+            if (result.length == 3) {
                 const short = result[0];
                 const full = result[1];
                 const countRaw = result[2];
