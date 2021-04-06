@@ -9,11 +9,11 @@ export const LinkService = {
     create: async (fullUrl: string): Promise<Link | null> => {
         try {
             // Check full url is hash exist
-            const shortInCached = await redis.get(fullUrl);
-            if (shortInCached) {
-                log.info(`[LinkService] -- [Create link by full] shortInCached : ${shortInCached}`);
-                return await LinkService.getByShort(shortInCached);
-            }
+            // const shortInCached = await redis.get(fullUrl);
+            // if (shortInCached) {
+            //     log.info(`[LinkService] -- [Create link by full] shortInCached : ${shortInCached}`);
+            //     return await LinkService.getByShort(shortInCached);
+            // }
 
             // Generate short url
             const short = nanoid(5);
