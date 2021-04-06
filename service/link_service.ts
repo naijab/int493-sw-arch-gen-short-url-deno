@@ -59,13 +59,6 @@ export const LinkService = {
             const cached = await redis.get(shortUrl);
             if (cached) {
                 link = JSON.parse(cached);
-                if (link) {
-                    const linkInDb = await LinkDatabaseRepository.getByShort(link.short!);
-                    if (linkInDb == null) {
-                        await LinkDatabaseRepository.createShortLink(link.short!, link.full!);
-                    }
-                    await LinkDatabaseRepository.updateStatByShort(link.count!, link.short!);
-                }
                 return link;
             }
             return null;
