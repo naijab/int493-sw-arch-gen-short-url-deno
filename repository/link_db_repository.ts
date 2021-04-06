@@ -4,17 +4,13 @@ import Link from "../model/Link.ts";
 import { TABLE } from "../config/config.ts";
 
 export const LinkDatabaseRepository = {
-  createShortLink: async (fullUrl: string): Promise<Link | null> => {
+  createShortLink: async (shortUrl: string, fullUrl: string): Promise<String | null> => {
     try {
       await client.execute(
-        `INSERT INTO ${TABLE.LINK} (full) VALUES (?)`,
-        [fullUrl],
+        `INSERT INTO ${TABLE.LINK} (short, full) VALUES (?, ?)`,
+        [shortUrl, fullUrl],
       );
-      const link = await client.query(`SELECT * FROM ${TABLE.LINK} ORDER BY id DESC LIMIT 1`);
-      if(link != null){
-        return link[0];
-      }
-      return  null;
+      return shortUrl;
     } catch (e) {
       log.error(`[LinkDBRepository] -- [Create link by full] Error : ${e}`);
     }
@@ -27,16 +23,16 @@ export const LinkDatabaseRepository = {
 
   getByShort: async (shortUrl: string): Promise<Link> => {
     const result = await client.query(
-      `SELECT * FROM ${TABLE.LINK} WHERE id = ? LIMIT 1`,
+      `SELECT * FROM ${TABLE.LINK} WHERE short = ? LIMIT 1`,
       [shortUrl],
     );
     return result[0];
   },
 
-  updateStatByShort: async (shortUrl: string): Promise<number> => {
+  updateStatByShort: async (count: number, shortUrl: string): Promise<number> => {
     const updateResult = await client.execute(
-      `UPDATE ${TABLE.LINK} SET count = count + 1 WHERE id = ?`,
-      [shortUrl],
+      `UPDATE ${TABLE.LINK} SET count = ? WHERE short = ?`,
+      [count, shortUrl],
     );
     let result = updateResult.affectedRows;
     if (!result || result == 0) {

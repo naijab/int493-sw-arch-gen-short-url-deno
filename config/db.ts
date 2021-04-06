@@ -23,6 +23,7 @@ const run = async () => {
   await client.execute(`
         CREATE TABLE IF NOT EXISTS ${TABLE.LINK} (
             id INT(11) NOT NULL AUTO_INCREMENT,
+            short VARCHAR(10) NOT NULL,
             full VARCHAR(180) NOT NULL,
             count INT(11) UNSIGNED NOT NULL DEFAULT 0,
             PRIMARY KEY (id)

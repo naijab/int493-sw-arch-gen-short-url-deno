@@ -13,6 +13,45 @@ export const LinkController = {
     };
   },
 
+  create: async (
+      { request, response }: { request: any; response: any },
+  ): Promise<void> => {
+    try {
+      const body = await request.body().value;
+      log.info(`Create link request : ${JSON.stringify(body)}`);
+      if (!body.url) {
+        log.error(`Error: Cannot create link : invalid body`);
+        response.status = 400;
+        response.body = {
+          message: "Invalid body",
+        };
+        return;
+      }
+
+      const link: Link | null = await LinkService.create(body.url);
+      if (!link) {
+        let err = `Error: Cannot create link`;
+        log.error(err);
+        response.status = 400;
+        response.body = {
+          message: err,
+        };
+        return;
+      }
+      response.status = 200;
+      response.body = {
+        link: `${HOSTNAME}/l/${link.short}`,
+      };
+      return;
+    } catch (error) {
+      log.error(error);
+      response.status = 400;
+      response.body = {
+        message: `Error: ${error}`,
+      };
+    }
+  },
+
   getAll: async ({ response }: { response: any }): Promise<void> => {
     try {
       const result = await LinkService.getAll();
@@ -33,7 +72,6 @@ export const LinkController = {
     try {
       const short = params.short;
       const link: Link | null = await LinkService.getByShort(short);
-
       if (!link) {
         response.status = 404;
         response.body = {
@@ -42,7 +80,7 @@ export const LinkController = {
         return;
       }
       const updateResult = await LinkService.updateStatByShort(link);
-      if (updateResult && updateResult > 0) {
+      if (updateResult) {
         response.status = 302;
         response.headers.set("Location", link.full);
         return;
@@ -69,48 +107,10 @@ export const LinkController = {
         };
         return;
       }
+      await LinkService.getStatByShort(short);
       response.status = 200;
       response.body = {
         visit: link.count,
-      };
-      return;
-    } catch (error) {
-      log.error(error);
-      response.status = 400;
-      response.body = {
-        message: `Error: ${error}`,
-      };
-    }
-  },
-
-  create: async (
-    { request, response }: { request: any; response: any },
-  ): Promise<void> => {
-    try {
-      const body = await request.body().value;
-      log.info(`Create link request : ${JSON.stringify(body)}`);
-      if (!body.url) {
-        log.error(`Error: Cannot create link : invalid body`);
-        response.status = 400;
-        response.body = {
-          message: "Invalid body",
-        };
-        return;
-      }
-
-      const link: Link | null = await LinkService.create(body.url);
-      if (!link) {
-        let err = `Error: Cannot create link`;
-        log.error(err);
-        response.status = 400;
-        response.body = {
-          message: err,
-        };
-        return;
-      }
-      response.status = 200;
-      response.body = {
-        link: `${HOSTNAME}/l/${link.id}`,
       };
       return;
     } catch (error) {
