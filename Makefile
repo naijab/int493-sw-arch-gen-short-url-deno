@@ -107,3 +107,6 @@ fetch-version:
 redis-clear-all:
 	@echo "🔥 URL Shortener ===> Clear all data in redis..."
 	redis-cli flushall
+
+redis-cli-docker:
+	docker-compose -f docker-compose-db.yaml exec redis-cluster /redis/src/redis-cli -p 7000
