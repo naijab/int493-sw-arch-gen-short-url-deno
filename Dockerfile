@@ -1,5 +1,7 @@
-FROM hayd/alpine-deno:latest
-EXPOSE 80
+FROM hayd/debian-deno
+
 WORKDIR /usr/app
 COPY . .
+
 CMD [ "run", "--unstable", "--allow-net", "--allow-env", "--allow-read", "index.ts" ]
+EXPOSE 80
