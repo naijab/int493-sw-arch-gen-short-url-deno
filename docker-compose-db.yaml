@@ -1,26 +1,17 @@
 version: "3"
 
 services:
-  # short_db:
-  #   image: mariadb
-  #   restart: always
-  #   volumes:
-  #     - db_data:/var/lib/mysql
-  #     - ./init.sql:/data/application/init.sql
-  #     - ./mariadb.cnf:/etc/mysql/my.cnf
-  #   environment:
-  #     MYSQL_DATABASE: "project"
-  #     MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-  #   ports:
-  #     - 3307:3306
 
-  short_redis:
-    image: redis
-    restart: always
+  redis-cluster:
+    image: grokzen/redis-cluster
+    environment: 
+      IP: ${REDIS_CLUSTER_IP}
+      SENTINEL: ${REDIS_USE_SENTINEL}
     ports:
-      - 6379:6379
+      - '7000-7050:7000-7050'
+      - '5000-5010:5000-5010'
 
 volumes:
-  db_data:
+  db_data:  
     driver: local
 
