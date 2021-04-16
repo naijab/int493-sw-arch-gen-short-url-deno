@@ -1,4 +1,4 @@
-# homework-2-deno
+# URL Shortener Project
 
 > URL Shortener API's with Deno and MariaDB
 
