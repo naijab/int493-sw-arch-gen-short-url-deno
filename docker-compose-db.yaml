@@ -14,14 +14,11 @@ services:
   #   ports:
   #     - 3307:3306
 
-  redis-cluster:
-    image: grokzen/redis-cluster
-    environment: 
-      IP: ${REDIS_CLUSTER_IP}
-      SENTINEL: ${REDIS_USE_SENTINEL}
+  short_redis:
+    image: redis
+    restart: always
     ports:
-      - '7000-7050:7000-7050'
-      - '5000-5010:5000-5010'
+      - 6379:6379
 
 volumes:
   db_data:

@@ -10,13 +10,6 @@ const redis = await connect({
   port,
 });
 
-// All Node Port
-await redis.clusterMeet(hostname, 7001);
-await redis.clusterMeet(hostname, 7002);
-
 log.info(`Start redis connection - ping status : ${await redis.ping()}`);
-
-const clusterNode = await redis.clusterNodes();
-log.info(`Redis cluster : ${JSON.stringify(clusterNode)}`);
 
 export default redis;
