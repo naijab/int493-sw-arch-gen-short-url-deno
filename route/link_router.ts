@@ -5,7 +5,6 @@ const router = new Router();
 
 router
   .get("/", LinkController.hello)
-  .get("/l", LinkController.getAll)
   .get("/l/:short", LinkController.getByShort)
   .get("/l/:short/stats", LinkController.getStatByShort)
   .post("/link", LinkController.create);

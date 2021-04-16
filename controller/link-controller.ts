@@ -52,20 +52,6 @@ export const LinkController = {
     }
   },
 
-  getAll: async ({ response }: { response: any }): Promise<void> => {
-    try {
-      const result = await LinkService.getAll();
-      response.status = 200;
-      response.body = result;
-    } catch (error) {
-      log.error(error);
-      response.status = 400;
-      response.body = {
-        message: `Error: ${error}`,
-      };
-    }
-  },
-
   getByShort: async (
     { params, response }: { params: { short: string }; response: any },
   ): Promise<void> => {

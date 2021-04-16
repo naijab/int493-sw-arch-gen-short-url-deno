@@ -39,10 +39,6 @@ export const LinkService = {
         return null;
     },
 
-    getAll: async (): Promise<[Link]> => {
-        return await LinkDatabaseRepository.getAll();
-    },
-
     getByShort: async (shortUrl: string): Promise<Link | null> => {
         try {
             const result = await redis.hmget(shortUrl, "short", "full", "count");
